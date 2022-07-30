@@ -43,7 +43,7 @@ GraphScene::GraphScene(Game* game)
 	m_center(DirectX::SimpleMath::Vector2::Zero),
 	m_lengthV1(50.0f),
 	m_radius(20),
-	m_vectorV1ToCenter(DirectX::SimpleMath::Vector2::Zero)
+	m_vectorV2(DirectX::SimpleMath::Vector2::Zero)
 
 {
 	// DirectX Graphicsクラスのインスタンスを取得する
@@ -106,8 +106,8 @@ void GraphScene::Update(const DX::StepTimer& timer)
 	m_vectorV1 = DirectX::SimpleMath::Vector2::Transform(vectorV1, rotationV1);
 	// 円の中心までのベクトルを設定する
 	m_center = DirectX::SimpleMath::Vector2(0.0f, -50.0f);
-	// ベクトルV1から円の中心へのベクトル
-	m_vectorV1ToCenter = m_center - m_vectorV1;
+	// 原点(0.0, 0.0)から円の中心へのベクトル
+	m_vectorV2 = m_center - DirectX::SimpleMath::Vector2(0.0f, 0.0f);
 
 	// 平面を初期化する
 	DirectX::SimpleMath::Plane plane(0.0f, 1.0f, 0.0f, 0.0f);
@@ -143,17 +143,17 @@ void GraphScene::Render()
 	// ベクトルV1を描画する
 	m_graphics->DrawVector(Vector2(0.0f, 0.0f), m_vectorV1, DirectX::Colors::White);
 	// 円の中心までのベクトルを描画する
-	m_graphics->DrawVector(Vector2(0.0f, 0.0f), m_center, DirectX::Colors::Blue);
+	m_graphics->DrawVector(Vector2(0.0f, 0.0f), m_center, DirectX::Colors::White);
 	// ベクトルv1から円の中心へのベクトルを描画する
-	m_graphics->DrawVector(m_vectorV1, m_center - m_vectorV1, DirectX::Colors::Blue);
+	m_graphics->DrawVector(m_vectorV1, m_center - m_vectorV1, DirectX::Colors::Yellow);
 	// ベクトルV1を正規化する
 	Vector2 nomalizeV1 = Normalize(m_vectorV1);
 	// 正射影を行う
 	Vector2 projection = Dot2D(m_center, nomalizeV1) * nomalizeV1;
 	// 正射影を描画する
-	m_graphics->DrawVector(Vector2(0.0f, 0.0f), projection, DirectX::Colors::Red);
+	m_graphics->DrawVector(Vector2(0.0f, 0.0f), projection, DirectX::Colors::Blue);
 	// 円の中心から正射影へのベクトルを描画する
-	m_graphics->DrawVector(m_center, projection - m_center, DirectX::Colors::Yellow);
+	m_graphics->DrawVector(m_center, projection - m_center, DirectX::Colors::Red);
 
 	// プリミティブ描画を終了する
 	m_graphics->DrawPrimitiveEnd();

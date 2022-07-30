@@ -101,8 +101,8 @@ private:
 	DirectX::SimpleMath::Vector2 m_center;
 	// 半径
 	float m_radius;
-	// ベクトルV1から円の中心へのベクトル
-	DirectX::SimpleMath::Vector2 m_vectorV1ToCenter;
+	// 原点から円の中心へのベクトル
+	DirectX::SimpleMath::Vector2 m_vectorV2;
 };
 
 #endif		// GRAPH_SCENE_DEFINED

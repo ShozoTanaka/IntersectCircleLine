@@ -53,22 +53,22 @@ inline bool IntersectCircleLine(
 	const DirectX::SimpleMath::Vector2& end							// 線分の終了
 )
 {
-	// 線分の開始地点から円の中心へのベクトル
-	DirectX::SimpleMath::Vector2 startToCenter = center - start;
-	// 線分の終了地点から円の中心へのベクトル
-	DirectX::SimpleMath::Vector2 endToCenter = center - end;
 	// 線分の開始位置から終了位置へのベクトル
-	DirectX::SimpleMath::Vector2 startToEnd = end - start;
+	DirectX::SimpleMath::Vector2 vectorV1 = end - start;
+	// 線分の開始地点から円の中心へのベクトル
+	DirectX::SimpleMath::Vector2 vectorV2 = center - start;
+	// 線分の終了地点から円の中心へのベクトル
+	DirectX::SimpleMath::Vector2 vectorV3 = center - end;
 	// 線分の開始位置から終了位置へのベクトルを正規化する
-	DirectX::SimpleMath::Vector2 normalStartToEnd = Normalize(startToEnd);
+	DirectX::SimpleMath::Vector2 normalVector1 = Normalize(vectorV1);
 	// 円の中心から線分までの距離を計算する
-	float length = Cross2D(startToCenter, normalStartToEnd);
+	float length = Cross2D(vectorV2, normalVector1);
 	// 円の中心から線分までの距離が半径より小さい場合
 	if (abs(length) <= radius)
 	{
-		if (Dot2D(startToCenter, startToEnd) * Dot2D(endToCenter, startToEnd) <= 0)
+		if (Dot2D(vectorV2, vectorV1) * Dot2D(vectorV3, vectorV1) <= 0)
 			return true;
-		else if (radius > startToCenter.Length() || radius > endToCenter.Length())
+		else if (radius > vectorV2.Length() || radius > vectorV3.Length())
 			return true;
 	}
 	return false;
